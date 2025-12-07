@@ -1,0 +1,11 @@
+# Dockerfile.verl.dev
+FROM hiyouga/verl:ngc-th2.8.0-cu12.9-vllm0.11.0
+
+# Work in /workspace
+WORKDIR /workspace
+
+COPY . /workspace/verl
+
+RUN pip install --no-cache-dir -e /workspace/verl --no-build-isolation --no-deps
+
+WORKDIR /workspace/verl

@@ -1,0 +1,41 @@
+
+# docker compose -f docker-compose.verl.dev.yml build
+# docker compose -f docker-compose.verl.dev.yml up -d
+# docker compose -f docker-compose.verl.dev.yml exec verl-dev bash
+
+
+services:
+  verl-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.verl.dev
+
+    image: verl-dev:latest
+    container_name: verl-dev
+
+    # GPU access
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: ["gpu"]
+
+    network_mode: host
+    shm_size: "32g"
+    ipc: host
+
+    # Hardcoded to match Dockerfile (1000:1000)
+    user: "1000:1000"
+
+    volumes:
+      # 1. Mount the **parent directory verl_dev** → /workspace
+      - ..:/workspace
+
+    working_dir: /workspace/verl
+
+    tty: true
+    stdin_open: true
+
+    command: ["bash"]

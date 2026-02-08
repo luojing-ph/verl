@@ -8,4 +8,6 @@ COPY . /workspace/verl
 
 RUN pip install --no-cache-dir -e /workspace/verl --no-build-isolation --no-deps
 
+RUN pip install --upgrade wandb
+
 WORKDIR /workspace/verl
